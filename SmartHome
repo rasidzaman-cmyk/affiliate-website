@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mein Affiliate Projekt – Bald mehr!</title>
+    <meta name="description" content="Persönliches Amazon-Affiliate-Projekt. Hier entsteht eine Website, mit der ich durch Affiliate Links bei Amazon Geld verdienen möchte." />
+    <meta name="author" content="Dein Name" />
+
+    <!-- Grundlegende Styles -->
+    <style>
+        :root {
+            --bg: #050816;
+            --bg-soft: #0f172a;
+            --accent: #22c55e;
+            --accent-soft: rgba(34, 197, 94, 0.15);
+            --text: #e5e7eb;
+            --text-muted: #9ca3af;
+            --border: rgba(148, 163, 184, 0.45);
+            --radius-lg: 1.5rem;
+            --radius-sm: 0.75rem;
+            --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+            --shadow-glow: 0 0 45px rgba(34, 197, 94, 0.45);
+            --transition-fast: 180ms ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #000 100%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* Layout */
+        .page-shell {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 1.5rem 1.25rem 3rem;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(18px);
+            background: linear-gradient(
+                to bottom,
+                rgba(15,23,42,0.96),
+                rgba(15,23,42,0.92),
+                transparent
+            );
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .nav {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-orbit {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 0, rgba(34,197,94,0.42), transparent 55%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-orbit::before {
+            content: "";
+            position: absolute;
+            width: 68px;
+            height: 68px;
+            border-radius: 999px;
+            border: 1px dashed rgba(148, 163, 184, 0.45);
+            animation: orbit-spin 18s linear infinite;
+            opacity: 0.7;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(34,197,94,0.85);
+        }
+
+        .brand-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .brand-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.9rem;
+            font-size: 0.85rem;
+        }
+
+        .nav-link {
+            padding: 0.45rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            transition:
+                border-color var(--transition-fast),
+                background var(--transition-fast),
+                color var(--transition-fast),
+                transform var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            border-color: rgba(148,163,184,0.4);
+            background: rgba(15,23,42,0.95);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        .nav-link--primary {
+            border-color: rgba(34,197,94,0.55);
+            background: radial-gradient(circle at 10% 0, rgba(34,197,94,0.25), transparent 65%);
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .nav-link--primary:hover {
+            background: rgba(15,23,42,0.98);
+            box-shadow: var(--shadow-glow);
+            color: #bbf7d0;
+        }
+
+        /* Hero */
+        .hero {
+            padding-top: 4.5rem;
+            padding-bottom: 3rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 880px) {
+            .hero {
+                grid-template-columns: minmax(0, 1fr);
+                padding-top: 3rem;
+            }
+        }
+
+        .hero-text {
+            position: relative;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: rgba(15,23,42,0.92);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            box-shadow: 0 10px 35px rgba(15,23,42,0.9);
+        }
+
+        .hero-pill-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(34,197,94,0.8);
+        }
+
+        .hero-title {
+            font-size: clamp(2.1rem, 4vw, 2.9rem);
+            line-height: 1.1;
+            margin-bottom: 0.9rem;
+        }
+
+        .hero-title span {
+            background: linear-gradient(to right, #bbf7d0, #22c55e);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            max-width: 36rem;
+            line-height: 1.6;
+        }
+
+        .hero-highlight-box {
+            margin-top: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: linear-gradient(
+                    120deg,
+                    rgba(34,197,94,0.12),
+                    rgba(15,23,42,0.98)
+            );
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-highlight-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at -10% -20%, rgba(34,197,94,0.35), transparent 50%);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .hero-highlight-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #bbf7d0;
+        }
+
+        .hero-highlight-text {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        .hero-highlight-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.65rem 1.15rem;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition:
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-fast);
+        }
+
+        .btn-primary {
+            border-color: rgba(34,197,94,0.7);
+            background: radial-gradient(circle at 0 0, rgba(34,197,94,0.35), rgba(15,23,42,1));
+            color: #bbf7d0;
+            font-weight: 500;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px) translateX(0.5px);
+            box-shadow: 0 20px 50px rgba(21,128,61,0.7);
+        }
+
+        .btn-ghost {
+            border-color: rgba(148,163,184,0.6);
+            background: rgba(15,23,42,0.9);
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(15,23,42,1);
+            color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        /* Decorative hero "card" – erklärt, dass noch keine Produkte da sind */
+        .hero-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: radial-gradient(circle at 0 0, rgba(34,197,94,0.3), rgba(15,23,42,1));
+            padding: 1.25rem;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .hero-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .hero-card-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.75);
+            border: 1px solid rgba(148,163,184,0.6);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #fbbf24;
+            box-shadow: 0 0 12px rgba(251,191,36,0.9);
+            animation: pulse-soft 1.8s ease-out infinite;
+        }
+
+        .hero-card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .hero-card-body {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .hero-card-footer {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge-outline {
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            border: 1px dashed rgba(148,163,184,0.8);
+        }
+
+        /* Sections */
+        .section {
+            margin-top: 2.5rem;
+            padding: 1.6rem 1.4rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            background: linear-gradient(
+                135deg,
+                rgba(15,23,42,0.98),
+                rgba(15,23,42,0.96),
+                rgba(2,6,23,1)
+            );
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 110% 0, rgba(34,197,94,0.22), transparent 55%);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .section-eyebrow {
+            font-size: 0.78rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .section-body {
+            position: relative;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: 1.4rem;
+            margin-top: 1.1rem;
+        }
+
+        @media (max-width: 880px) {
+            .section {
+                padding: 1.3rem 1.1rem;
+            }
+            .section-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .checklist {
+            list-style: none;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.55rem;
+        }
+
+        .check-icon {
+            margin-top: 0.15rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(34,197,94,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.6rem;
+        }
+
+        .pill {
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.55);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(15,23,42,0.9);
+        }
+
+        .note {
+            padding: 0.65rem 0.8rem;
+            border-radius: var(--radius-sm);
+            border: 1px dashed rgba(148,163,184,0.6);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            background: linear-gradient(
+                to right,
+                rgba(15,23,42,0.95),
+                rgba(15,23,42,0.98)
+            );
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(15,23,42,1);
+            background: #020617;
+            padding: 1.25rem 1.25rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+        }
+
+        .footer-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .footer-link {
+            opacity: 0.75;
+            transition: opacity var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        /* Scroll & appearance animations */
+        @keyframes orbit-spin {
+            0% { transform: rotate(0deg) translateX(0); }
+            100% { transform: rotate(360deg) translateX(0); }
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) translateX(0); }
+            50% { transform: translateY(-6px) translateX(2px); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 18px rgba(34,197,94,0.55); }
+            50% { box-shadow: 0 0 30px rgba(34,197,94,0.9); }
+        }
+
+        .float-slow {
+            animation: float-slow 5.2s ease-in-out infinite;
+        }
+
+        /* Scroll reveal classes (JS gesteuert) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition:
+                opacity 600ms ease-out,
+                transform 600ms ease-out,
+                box-shadow 400ms ease-out;
+        }
+
+        .reveal--visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal--glow.reveal--visible {
+            box-shadow: 0 22px 55px rgba(15,23,42,0.95);
+        }
+
+        /* Kleine Utility-Klasse für “WIP” */
+        .wip-label {
+            padding: 0.15rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.92);
+            border: 1px dashed rgba(248,250,252,0.2);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <div class="nav-left">
+            <div class="logo-orbit float-slow">
+                <div class="logo-dot"></div>
+            </div>
+            <div>
+                <div class="brand-title">Mein Affiliate Projekt</div>
+                <div class="brand-sub">Aufbau in Arbeit · Amazon-Partnerprogramm</div>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <button class="nav-link" data-scroll="#intro">Über das Projekt</button>
+            <button class="nav-link" data-scroll="#plan">Affiliate-Plan</button>
+            <button class="nav-link" data-scroll="#status">Aktueller Stand</button>
+            <button class="nav-link nav-link--primary" data-scroll="#kontakt">Kontakt</button>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="page-shell">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-text reveal">
+                <div class="hero-pill">
+                    <span class="hero-pill-dot"></span>
+                    <span>Diese Website ist noch im Aufbau – aber die Vision steht schon.</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Ich baue mir ein Einkommen über
+                    <span>Amazon-Affiliate-Links</span> auf.
+                </h1>
+
+                <p class="hero-subtitle">
+                    Diese Seite wird nach und nach erweitert. Ziel:
+                    Durch das Amazon-Partnerprogramm Produkte empfehlen,
+                    ehrliche Erfahrungen teilen und so langfristig ein
+                    zusätzliches Online-Einkommen aufbauen – transparent
+                    und Schritt für Schritt.
+                </p>
+
+                <div class="hero-highlight-box">
+                    <div class="hero-highlight-title">
+                        Hinweis zum Amazon-Partnerprogramm
+                    </div>
+                    <p class="hero-highlight-text">
+                        Ich nehme am Amazon-Partnerprogramm teil. Das bedeutet:
+                        In Zukunft werde ich Links zu Produkten einbauen. Wenn du über
+                        diese Links einkaufst, erhalte ich eine kleine Provision von Amazon –
+                        für dich bleibt der Preis gleich.
+                    </p>
+                    <p class="hero-highlight-meta">
+                        <strong>Wichtig:</strong> Aktuell werden hier noch <u>keine Produkte</u>
+                        und <u>keine Affiliate-Links</u> angezeigt. Diese Seite ist eine
+                        Grundstruktur und wird später erweitert.
+                    </p>
+                </div>
+
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" data-scroll="#status">
+                        Projektstatus ansehen
+                        <span aria-hidden="true">↗</span>
+                    </button>
+                    <button class="btn btn-ghost" data-scroll="#plan">
+                        Wie ich mit Affiliate Links Geld verdienen möchte
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dekorative “Affiliate Status Card” -->
+            <aside class="hero-card reveal reveal--glow" id="status">
+                <div class="hero-card-header">
+                    <div class="hero-card-status">
+                        <span class="status-dot"></span>
+                        <span>Work in Progress</span>
+                    </div>
+                    <span class="wip-label">Version 0.1 · Grundstruktur</span>
+                </div>
+
+                <div class="hero-card-title">
+                    Aktueller Stand des Projekts
+                </div>
+                <p class="hero-card-body">
+                    Die technische Basis steht bereits: Diese Seite ist bewusst
+                    minimal, aber mit moderner Struktur &amp; Animationen aufgebaut.
+                    Produktlisten, konkrete Empfehlungen und echte Amazon-Affiliate-Links
+                    folgen in den nächsten Schritten.
+                </p>
+
+                <div class="hero-card-footer">
+                    <span class="badge-outline">
+                        🔧 Nächster Schritt: erste Themen &amp; Produktkategorien definieren
+                    </span>
+                    <span>Zuletzt aktualisiert: <em>Entwickler-Version – Datum in README pflegen</em></span>
+                </div>
+            </aside>
+        </section>
+
+        <!-- SECTION: Über das Projekt -->
+        <section class="section reveal" id="intro">
+            <div class="section-header">
+                <div>
+                    <div class="section-eyebrow">Über dieses Projekt</div>
+                    <h2 class="section-title">Warum ich mit Amazon-Affiliate starten möchte</h2>
+                </div>
+                <span class="wip-label">Content im Aufbau</span>
+            </div>
+
+            <div class="section-grid">
+                <div class="section-body">
+                    <p>
+                        Diese Website ist der Startpunkt für mein eigenes Affiliate-Projekt.
+                        Der Fokus liegt darauf, langfristig nützliche Inhalte zu erstellen
+                        und passende Produkte zu empfehlen – nicht einfach irgendetwas zu verlinken.
+                    </p>
+                    <p style="margin-top: 0.6rem;">
+                        Mit dem Amazon-Partnerprogramm kann ich Links zu Produkten einbauen.
+                        Wenn Besucher später über diese Links einkaufen, bekomme ich eine
+                        kleine Provision. Dafür möchte ich im Gegenzug ehrliche Infos,
+                        Erfahrungen und Empfehlungen bieten.
+                    </p>
+
+                    <div class="note">
+                        <strong>Transparenz-Hinweis:</strong> Sobald echte Amazon-Affiliate-Links
+                        eingebaut werden, werde ich sie deutlich kennzeichnen und klar machen,
+                        dass es sich um Werbelinks handelt.
+                    </div>
+                </div>
+
+                <div class="section-body">
+                    <ul class="checklist">
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div>
+                                <strong>Langfristig denken:</strong><br/>
+                                Keine schnelle „Reich-über-Nacht“-Idee, sondern ein Projekt,
+                                das über Zeit wachsen darf.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div>
+                                <strong>Mehrwert zuerst:</strong><br/>
+                                Inhalte und Empfehlungen sollen Besucher:innen wirklich weiterhelfen.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">✓</div>
+                            <div>
+                                <strong>Transparent &amp; ehrlich:</strong><br/>
+                                Offen kommunizieren, dass es sich um Affiliate-Links handelt
+                                und wie das Ganze funktioniert.
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="pill-row">
+                        <span class="pill">#Aufbauphase</span>
+                        <span class="pill">#AmazonAffiliate</span>
+                        <span class="pill">#PassivesEinkommen</span>
+                        <span class="pill">#Langfristig</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Plan / Roadmap -->
+        <section class="section reveal" id="plan">
+            <div class="section-header">
+                <div>
+                    <div class="section-eyebrow">Plan &amp; Roadmap</div>
+                    <h2 class="section-title">So soll diese Affiliate-Website wachsen</h2>
+                </div>
+                <span class="wip-label">Roadmap v0 – kann jederzeit angepasst werden</span>
+            </div>
+
+            <div class="section-grid">
+                <div class="section-body">
+                    <p>
+                        Noch ist hier keine Produktübersicht zu sehen – und das ist Absicht.
+                        Erst kommt die Struktur, dann kommen Inhalte, Kategorien und konkrete
+                        Empfehlungen dazu. Die grobe Idee:
+                    </p>
+
+                    <ul class="checklist" style="margin-top: 0.8rem;">
+                        <li>
+                            <div class="check-icon">1</div>
+                            <div>
+                                <strong>Solide Basis:</strong><br/>
+                                Saubere, erweiterbare Website-Struktur (genau das hier),
+                                die auf GitHub liegt und jederzeit weiterentwickelt werden kann.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">2</div>
+                            <div>
+                                <strong>Themen finden:</strong><br/>
+                                Welche Nische, welche Probleme und welche Produkte passen zu mir
+                                und zu meinen Erfahrungen?
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">3</div>
+                            <div>
+                                <strong>Content &amp; Empfehlungen:</strong><br/>
+                                Texte schreiben, Erfahrungen teilen, sinnvolle Produktempfehlungen
+                                aufbauen – mit Amazon-Affiliate-Links.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="check-icon">4</div>
+                            <div>
+                                <strong>Optimieren &amp; erweitern:</strong><br/>
+                                Design, SEO, neue Kategorien und vielleicht sogar Newsletter
+                                oder Blog ergänzen.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="section-body">
+                    <div class="note">
+                        <strong>GitHub-Hinweis:</strong><br/>
+                        Diese Datei ist bewusst einfach gehalten, damit du sie
+                        <code>committen</code>, verzweigen und jederzeit erweitern kannst.
+                        Ergänze z.B.:
+                        <ul style="margin-top: 0.4rem; padding-left: 1rem;">
+                            <li>weitere Unterseiten (z.B. <code>/blog</code> oder <code>/guide</code>)</li>
+                            <li>eine richtige Produktliste mit Amazon-Links</li>
+                            <li>rechtliche Seiten wie Impressum &amp; Datenschutzerklärung</li>
+                        </ul>
+                    </div>
+
+                    <div class="pill-row">
+                        <span class="pill">TODO: Produktsektion einbauen</span>
+                        <span class="pill">TODO: SEO-Grundlagen ergänzen</span>
+                        <span class="pill">TODO: Rechtstexte hinzufügen</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Kontakt / Placeholder -->
+        <section class="section reveal" id="kontakt">
+            <div class="section-header">
+                <div>
+                    <div class="section-eyebrow">Kontakt &amp; Transparenz</div>
+                    <h2 class="section-title">Wie du mich erreichen kannst (Platzhalter)</h2>
+                </div>
+                <span class="wip-label">Kontaktbereich in Arbeit</span>
+            </div>
+
+            <div class="section-body">
+                <p>
+                    Hier ist Platz für deine Kontaktmöglichkeiten – z.B. ein einfaches
+                    Kontaktformular, deine E-Mail-Adresse oder Links zu Social Media.
+                    Aktuell ist dieser Bereich nur ein Platzhalter.
+                </p>
+
+                <p style="margin-top: 0.6rem;">
+                    <strong>Idee für später:</strong> Kurze Info, wie mit Kooperationen,
+                    Produkttests und Affiliate-Links umgegangen wird. So bleibt alles
+                    für Besucher:innen klar und nachvollziehbar.
+                </p>
+
+                <div class="note">
+                    <strong>Platzhalter-Kontakt:</strong><br/>
+                    Du kannst später hier z.B. so etwas einbauen wie:<br/>
+                    <code>mail@example.com</code> oder ein Formular mit Name, E-Mail und Nachricht.
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div>
+            &copy; <span id="year"></span> – Mein Affiliate Projekt.
+            Alle Angaben ohne Gewähr. Diese Website befindet sich im Aufbau.
+        </div>
+        <div class="footer-links">
+            <span class="footer-link">Amazon-Partnerprogramm Hinweis</span>
+            <span class="footer-link">Impressum (Platzhalter)</span>
+            <span class="footer-link">Datenschutz (Platzhalter)</span>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript: Jahr & Scroll-Animationen -->
+<script>
+    // Aktuelles Jahr im Footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Smooth Scroll für Buttons mit data-scroll
+    document.querySelectorAll("[data-scroll]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            var target = document.querySelector(btn.getAttribute("data-scroll"));
+            if (!target) return;
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
+
+    // Scroll-Reveal mit IntersectionObserver
+    (function () {
+        var revealElements = document.querySelectorAll(".reveal");
+        if (!("IntersectionObserver" in window)) {
+            // Fallback: alle sichtbar
+            revealElements.forEach(function (el) {
+                el.classList.add("reveal--visible");
+            });
+            return;
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("reveal--visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.18
+        });
+
+        revealElements.forEach(function (el) {
+            observer.observe(el);
+        });
+    })();
+</script>
+</body>
+</html>
